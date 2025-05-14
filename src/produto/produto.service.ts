@@ -7,22 +7,23 @@ import { Produto } from './produto.entity';
 export class ProdutoService {
     constructor(
         @InjectRepository(Produto)
-        private produtoRepository: Repository<Produto>,
+        private produtoRepository: Repository<Produto>
     ){}
 
-    findAll(): Promise<Produto[]> {
+    listar(): Promise<Produto[]> {
         return this.produtoRepository.find();
     }
 
-    findOne(id: number): Promise<Produto> {
-        return this.produtoRepository.findOneBy({ id });
-    }
-
-    create(produto: Produto): Promise<Produto> {
+    criar(produto: Produto): Promise<Produto> {
         return this.produtoRepository.save(produto);
     }
 
-    delete(id: number): Promise<void> {
-        return this.produtoRepository.delete(id).then(() => {});
+    async deletar(id: number): Promise<void> {
+        await this.produtoRepository.delete(id);
     }
+
+    async atualizar(id: number, dados: Partial<Produto>): Promise<void> {
+        await this.produtoRepository.update(id,dados);
+    }
+
 }

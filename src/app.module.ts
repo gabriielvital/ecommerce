@@ -1,10 +1,12 @@
 import { Module } from '@nestjs/common';
-import {TypeOrmModule} from '@nestjs/typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ProdutoModule } from './produto/produto.module';
 import { PedidoModule } from './pedido/pedido.module';
 import { AuthModule } from './auth/auth.module';
+import { UsuarioModule } from './usuario/usuario.module';
+import { EnderecoModule } from './endereco/endereco.module';
 
 @Module({
   imports: [
@@ -22,6 +24,8 @@ import { AuthModule } from './auth/auth.module';
     ProdutoModule,
     PedidoModule,
     AuthModule,
+    UsuarioModule,
+    EnderecoModule,
   ],
   controllers: [AppController],
   providers: [AppService],
