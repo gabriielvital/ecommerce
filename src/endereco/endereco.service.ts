@@ -15,4 +15,29 @@ export class EnderecoService {
         return this.enderecoRepository.save(endereco);
     }
 
+    async listar(): Promise<Endereco[]>{
+        return this.enderecoRepository.find();
+    }
+
+    async listarPorUsuario(usuarioId: number): Promise<Endereco[]> {
+        return this.enderecoRepository.find({
+          where: { usuario: { id: usuarioId } },
+          relations: ['usuario'],
+        });
+      }
+
+    async atualizar(id: number, dados: Partial<Endereco>): Promise<Endereco>{
+        await this.enderecoRepository.update(id, dados);
+        const endereco = await this.enderecoRepository.findOne({where: {id}});
+        if (!endereco) {
+            throw new Error('Endereço não encontrado');
+        }
+        return endereco;
+    }
+
+    async remover(id: number): Promise<void>{
+        await this.enderecoRepository.delete(id);
+    }
+    
+    
 }
