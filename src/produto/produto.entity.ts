@@ -1,5 +1,5 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { PedidoProduto } from 'src/pedido/pedido-produto.entity';
+import { PedidoProduto } from '../pedido/pedido-produto.entity';
 
 @Entity()
 export class Produto {
@@ -9,7 +9,7 @@ export class Produto {
     @Column()
     nome: string;
 
-    @Column('decimal')
+    @Column('decimal', { precision: 10, scale: 2 })
     preco: number;
 
     @Column()

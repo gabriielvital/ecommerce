@@ -7,20 +7,30 @@ import { PedidoModule } from './pedido/pedido.module';
 import { AuthModule } from './auth/auth.module';
 import { UsuarioModule } from './usuario/usuario.module';
 import { EnderecoModule } from './endereco/endereco.module';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'root',
-      database: 'ecommerce',
-      autoLoadEntities: true,
-      synchronize: true, //Ideal desativar em produção!
-
-    }),
+    ConfigModule.forRoot({ isGlobal: true }),
+    TypeOrmModule.forRoot(
+      process.env.USE_SQLITE === '1'
+        ? {
+            type: 'sqlite',
+            database: 'ecommerce.sqlite',
+            autoLoadEntities: true,
+            synchronize: true, // desativar em produção
+          }
+        : {
+            type: 'mysql',
+            host: process.env.DB_HOST || 'localhost',
+            port: Number(process.env.DB_PORT || 3306),
+            username: process.env.DB_USER || 'root',
+            password: process.env.DB_PASS || 'root',
+            database: process.env.DB_NAME || 'ecommerce',
+            autoLoadEntities: true,
+            synchronize: true, // desativar em produção
+          },
+    ),
     ProdutoModule,
     PedidoModule,
     AuthModule,
